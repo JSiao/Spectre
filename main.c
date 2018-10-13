@@ -1,7 +1,13 @@
+/**
+ * File: main.cpp
+ * Author: Justin Siao
+ */
 #include <os.h>
 #include <SDL/SDL_config.h>
 #include <SDL/SDL.h>
 #include <math.h>
+
+#define SPRITE_SIZE 24
 
 //------------------------------------------------------------------
 int world_map[24][24] =
@@ -52,24 +58,60 @@ char wall_sprite[16][16] =
     {2,3,3,2,1,1,1,1,2,3,3,2,1,1,1,1}
 };
 
-char rune[16][16] =
+char rune[SPRITE_SIZE][SPRITE_SIZE] =
 {
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,4,4,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,0,4,4,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,0,4,4,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,4,4,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,4,4,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,4,4,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,4,4,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,4,4,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,4,4,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,4,4,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+};
+
+char spectre[SPRITE_SIZE][SPRITE_SIZE] =
+{
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0}
 };
 
 short pallette[10];
@@ -87,7 +129,9 @@ static struct game
 {
     double time_0, time_1;
     char running;
-} game_data = {0, 0, 1};
+    char debug;
+    char collide;
+} game_data = {0, 0, 1, 0, 0};
 
 struct video
 {
@@ -101,7 +145,8 @@ struct sprite
     double x,y;
     char visible;
     char type;
-} rune_sprite = {11.5, 11.5, 1, 0};
+    char (*sprite)[SPRITE_SIZE][SPRITE_SIZE];
+} rune_sprite = {7.5, 11.5, 1, 0, &rune}, spectre_sprite = {1.5, 1.5, 1, 1, &spectre};
 
 
 //------------------------------------------------------------------
@@ -113,10 +158,12 @@ void  key_process(struct game *, struct player*, struct video *);
 void  video_init(struct video *);
 void  video_process(struct video *, struct player *);
 void  video_render_wall(struct video *, struct player *);
-void  video_render_sprites(struct video *, struct player *, struct sprite *);
-void  video_wall_line(SDL_Surface *, int, int, int, int, int);
-void  video_sprite_line(SDL_Surface *, int, int, int, int, int);
+char  video_render_sprites(struct video *, struct player *, struct sprite *);
+void  video_wall_line(SDL_Surface *, int, int, int, int, int, int);
+void  video_sprite_line(SDL_Surface *, int, int, int, int, int, char (*)[24][24], int);
 short video_24_to_16(unsigned char, unsigned char, unsigned char);
+
+char  collide(struct player*, struct sprite *);
 
 void  debug_render(struct video *, nSDL_Font *);
 
@@ -141,15 +188,15 @@ int main(int argc, char **argv)
 
 void game_init(void)
 {
-    pallette[0] = video_24_to_16(  35,  49,  70);
-    pallette[1] = video_24_to_16(  13,  27,  49);
-    pallette[2] = video_24_to_16(   5,  14,  29);
-    pallette[3] = video_24_to_16(  18,  25,  35);
-    pallette[4] = video_24_to_16(   7,  14,  25);
-    pallette[5] = video_24_to_16(   3,   7,  15);
-    pallette[6] = video_24_to_16(   0, 127,   0);
-    pallette[7] = video_24_to_16(   0,   0,   0);
-    pallette[8] = video_24_to_16( 255, 255, 255);
+    pallette[0] = video_24_to_16(  70,  95, 140); //Blue 1
+    pallette[1] = video_24_to_16(  25,  55,  98); //Blue 2
+    pallette[2] = video_24_to_16(  10,  28,  68); //Blue 3
+    pallette[3] = video_24_to_16(  35,  49,  70); //Blue 4
+    pallette[4] = video_24_to_16(  13,  27,  49); //Blue 5
+    pallette[5] = video_24_to_16(   5,  14,  29); //Blue 6
+    pallette[6] = video_24_to_16(   0, 127,   0); //Green
+    pallette[7] = video_24_to_16(   0,   0,   0); //Black
+    pallette[8] = video_24_to_16( 255, 255, 255); //White
 }
 
 void key_process(struct game *data, struct player *player, struct video *video)
@@ -173,11 +220,11 @@ void key_process(struct game *data, struct player *player, struct video *video)
     }
     if (isKeyPressed(KEY_NSPIRE_DOWN) || isKeyPressed(KEY_NSPIRE_2))
     {
-        if (!world_map[(int)(player->x + player->dir_x * move)][(int)(player->y)])
+        if (!world_map[(int)(player->x - player->dir_x * move)][(int)(player->y)])
         {
             player->x -= player->dir_x * move;
         }
-        if (!world_map[(int)(player->x)][(int)(player->y + player->dir_y * move)])
+        if (!world_map[(int)(player->x)][(int)(player->y - player->dir_y * move)])
         {
             player->y -= player->dir_y * move;
         }
@@ -211,15 +258,17 @@ void video_init(struct video * video_ptr)
     SDL_Init(SDL_INIT_VIDEO);
     video_ptr->screen = SDL_SetVideoMode(320, 240, has_colors ? 16 : 8, SDL_SWSURFACE);
     video_ptr->plane_x = 0.0f;
-    video_ptr->plane_y = 0.66f;
-    video_ptr->font = nSDL_LoadFont(NSDL_FONT_TINYTYPE, 31, 63, 31);
+    video_ptr->plane_y = 0.6666f;
+    video_ptr->font = nSDL_LoadFont(NSDL_FONT_TINYTYPE, 255, 255, 255);
 }
 
 void video_process(struct video *video_ptr, struct player *player_ptr)
 {
-    SDL_FillRect(video.screen, NULL, SDL_MapRGB(video.screen->format, 0, 0, 0));
+    SDL_FillRect(video.screen, NULL, SDL_MapRGB(video.screen->format, 10, 10, 10));
     video_render_wall(video_ptr, player_ptr);
     video_render_sprites(video_ptr, player_ptr, &rune_sprite);
+    game_data.debug = video_render_sprites(video_ptr, player_ptr, &spectre_sprite);
+    game_data.collide = collide(player_ptr, &rune_sprite);
     debug_render(&video, video_ptr->font);
     SDL_Flip(video_ptr->screen);
 }
@@ -298,13 +347,14 @@ void video_render_wall(struct video *video_ptr, struct player *player_ptr)
         int tex_x = (int)(wall_x * 16.0f);
         if ((side == 0 && player_ptr->dir_x > 0) || (side == 1 && player_ptr->dir_y < 0))
             tex_x = 16 - tex_x - 1;
-        video_wall_line(video_ptr->screen, x, start, end, tex_x, side);
+        video_wall_line(video_ptr->screen, x, start, end, tex_x, side, line_height);
         pixel_buffer[x] = distance;
     }
 }
  
-void video_render_sprites(struct video *video_ptr, struct player *player_ptr, struct sprite *sprite)
+char video_render_sprites(struct video *video_ptr, struct player *player_ptr, struct sprite *sprite)
 {
+    char return_val = 0;
     if (sprite->visible)
     {
         double x = player_ptr->x;
@@ -338,25 +388,52 @@ void video_render_sprites(struct video *video_ptr, struct player *player_ptr, st
         
         for (int stripe = start_x; stripe < end_x; stripe++)
         {
-            int tex_x = (int)(256 * (stripe - (-side / 2 + screen_x)) * 16 / side) / 256;
+            int tex_x = (int)(256 * (stripe - (-side / 2 + screen_x)) * SPRITE_SIZE / side) / 256;
             if (transform_y > 0 && stripe > 0 && stripe < 320 && transform_y < pixel_buffer[stripe] )
             {
-                 video_sprite_line(video_ptr->screen, stripe, start_y, end_y, tex_x, sprite->type);
+                 video_sprite_line(video_ptr->screen, stripe, start_y, end_y, tex_x, sprite->type, sprite->sprite, side);
+                 return_val = 1;
             }
         }
     }
+    return return_val;
 }
 
-void video_sprite_line(SDL_Surface *surface, int x, int start, int end, int tex_x, int type)
+void video_sprite_line(SDL_Surface *surface, int x, int start, int end, int tex_x, int type, char (*sprite)[SPRITE_SIZE][SPRITE_SIZE], int line_height)
 {
     if (type) type = 0;
     for (int y = start; y < end; y++)
     {
-        int height = end - start;
-        int d = y * 256 - 240 * 128 + height * 128;
-        int tex_y = ((d * 16) / height) / 256;
-        int color = rune[tex_y][tex_x];
-        int c = pallette[6];
+        int d = y * 256 - 240 * 128 + line_height * 128;
+        int tex_y = ((d * SPRITE_SIZE) / line_height) / 256;
+        char color = (*sprite)[tex_y][tex_x];
+        int c = pallette[9];
+        switch (color)
+        {
+            case 1:
+                c = pallette[0];
+                break;
+            case 2:
+                c = pallette[1];
+                break;
+            case 3:
+                c = pallette[2];
+                break;
+            case 4:
+                c = pallette[6];
+                break;
+            case 5:
+                c = pallette[7];
+                break;
+            case 6:
+                c = pallette[8];
+                break;
+            case 7:
+                c = pallette[9];
+                break;
+            default:
+                color = 0;
+        }
         if (color)
         {
             nSDL_SetPixel(surface, x, y, c);
@@ -364,27 +441,26 @@ void video_sprite_line(SDL_Surface *surface, int x, int start, int end, int tex_
     }
 }
 
-void video_wall_line(SDL_Surface *surface, int x, int start, int end, int tex_x, int side)
+void video_wall_line(SDL_Surface *surface, int x, int start, int end, int tex_x, int side, int line_height)
 {
     for (int y = start; y < end; y++)
     {
-        int height = end - start;
-        int d = y * 256 - 240 * 128 + height * 128;
-        int tex_y = ((d * 16) / height) / 256;
-        int color = wall_sprite[tex_x][tex_y];
-        int ncolor;
+        int d = y * 256 - 240 * 128 + line_height * 128;
+        int tex_y = ((d * 16) / line_height) / 256;
+        int color = wall_sprite[tex_y][tex_x];
+        int xcolor;
         if (side)
         {
             switch (color)
             {
             case 1:
-                ncolor = pallette[0];
+                xcolor = pallette[0];
                 break;
             case 2:
-                ncolor = pallette[1];
+                xcolor = pallette[1];
                 break;
             case 3:
-                ncolor = pallette[2];
+                xcolor = pallette[2];
                 break;
             }
         }
@@ -393,17 +469,17 @@ void video_wall_line(SDL_Surface *surface, int x, int start, int end, int tex_x,
             switch (color)
             {
             case 1:
-                ncolor = pallette[3];
+                xcolor = pallette[3];
                 break;
             case 2:
-                ncolor = pallette[4];
+                xcolor = pallette[4];
                 break;
             case 3:
-                ncolor = pallette[5];
+                xcolor = pallette[5];
                 break;
             }
         }
-        nSDL_SetPixel(surface, x, y, ncolor);
+        nSDL_SetPixel(surface, x, y, xcolor);
     }
 }
 
@@ -430,5 +506,24 @@ void debug_render(struct video *video, nSDL_Font *font)
     nSDL_DrawString(video->screen, font, 10, 20, debug);
     snprintf(debug, 32, "Player y: %f", player.y);
     nSDL_DrawString(video->screen, font, 10, 30, debug);
+    snprintf(debug, 32, "spectre: %s", ((game_data.debug)?"TRUE":"FALSE"));
+    nSDL_DrawString(video->screen, font, 10, 40, debug);
+    snprintf(debug, 32, "spectre: %s", ((game_data.collide)?"TRUE":"FALSE"));
+    nSDL_DrawString(video->screen, font, 10, 50, debug);
     y++;
+}
+
+char collide(struct player* player, struct sprite *sprite)
+{
+    if (sprite->visible)
+    {
+        double dx = fabs(player->x - sprite->x);
+        double dy = fabs(player->y - sprite->y);
+        double distance = dx * dx + dy * dy ;
+        if (distance < 0.0625)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
