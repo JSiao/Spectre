@@ -10,35 +10,89 @@
 #define SPRITE_SIZE 24
 
 //------------------------------------------------------------------
-int world_map[24][24] =
+static char _maps[3][24][24] =
 {
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
-    {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
-    {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-    {1,0,1,0,1,0,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1},
-    {1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
-    {1,0,1,0,1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,0,1,0,1},
-    {1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
-    {1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
-    {1,0,1,1,1,1,1,0,1,0,1,0,0,0,0,1,0,0,0,1,0,1,0,1},
-    {1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1},
-    {1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1},
-    {1,0,1,0,1,0,0,0,1,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1},
-    {1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1},
-    {1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,1,1,0,1,0,1,0,1},
-    {1,0,1,0,1,0,1,1,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,1},
-    {1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,1},
-    {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,1},
-    {1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
-    {1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
-    {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
-    {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1},
-    {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    {
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1},
+        {1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,1,1,1,1,0,1,0,1,0,0,0,0,1,0,0,0,1,0,1,0,1},
+        {1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,1,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,1},
+        {1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+        {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    },
+    {
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1},
+        {1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
+        {1,0,1,0,0,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,1,1,1,1,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
+        {1,0,0,0,0,0,0,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,0,1},
+        {1,1,1,1,1,1,1,0,1,0,1,0,0,0,0,1,0,0,0,1,0,1,0,1},
+        {1,0,0,0,0,0,0,0,1,0,1,1,1,1,0,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,1,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,1},
+        {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
+        {1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    },
+    {
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1},
+        {1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,0,1,0,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,1,1,1,1,1,1,0,1,0,0,0,0,1,0,0,0,1,0,1,0,1},
+        {1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,1,0,1,0,0,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1},
+        {1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,1},
+        {1,0,1,0,1,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1},
+        {1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1},
+        {1,0,1,1,1,1,1,0,1,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1},
+        {1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
+        {1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+        {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    }
 };
 
-char wall_sprite[16][16] =
+static char wall_sprite[16][16] =
 {
     {1,1,1,1,1,2,3,3,2,1,1,1,1,2,1,1},
     {1,1,1,1,1,1,2,1,3,2,1,1,2,3,2,1},
@@ -58,7 +112,7 @@ char wall_sprite[16][16] =
     {2,3,3,2,1,1,1,1,2,3,3,2,1,1,1,1}
 };
 
-char rune[SPRITE_SIZE][SPRITE_SIZE] =
+static char rune[SPRITE_SIZE][SPRITE_SIZE] =
 {
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -86,7 +140,7 @@ char rune[SPRITE_SIZE][SPRITE_SIZE] =
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 
-char spectre[SPRITE_SIZE][SPRITE_SIZE] =
+static char spectre[SPRITE_SIZE][SPRITE_SIZE] =
 {
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -114,9 +168,9 @@ char spectre[SPRITE_SIZE][SPRITE_SIZE] =
     {0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0}
 };
 
-short pallette[10];
+static short pallette[10];
 
-double pixel_buffer[320];
+static double pixel_buffer[320];
 
 //------------------------------------------------------------------
 
@@ -131,16 +185,17 @@ static struct game
     double time_0, time_1;
     char running;
     int score;
+    char (*world_map)[24][24];
 } game_data;
 
-struct video
+static struct video
 {
     SDL_Surface *screen;
     nSDL_Font *font;
     double plane_x, plane_y;
 } video;
 
-struct sprite
+static struct sprite
 {
     double x,y;
     char visible;
@@ -150,29 +205,31 @@ struct sprite
     char (*sprite)[SPRITE_SIZE][SPRITE_SIZE];
 } sprite_list[4];
 
-int sprite_stack[4];
+static int sprite_stack[4];
 
 //------------------------------------------------------------------
 
-void  game_init(void);
+void   game_init(void);
+void   game_help(struct video *, nSDL_Font *);
+void   game_scramble();
 
-void  key_process(struct game *, struct player*, struct video *);
+void   key_process(struct game *, struct player*, struct video *);
 
-void  video_init(struct video *);
-void  video_process(struct video *, struct player *);
-void  video_render_wall(struct video *, struct player *);
-char  video_render_sprites(struct video *, struct player *, struct sprite *);
-void  video_wall_line(SDL_Surface *, int, int, int, int, int, int);
-void  video_sprite_line(SDL_Surface *, int, int, int, int, int, char (*)[24][24], int);
-short video_24_to_16(unsigned char, unsigned char, unsigned char);
+void   video_init(struct video *);
+void   video_process(struct video *, struct player *);
+void   video_render_wall(struct video *, struct player *);
+char   video_render_sprites(struct video *, struct player *, struct sprite *);
+void   video_wall_line(SDL_Surface *, int, int, int, int, int, int);
+void   video_sprite_line(SDL_Surface *, int, int, int, int, int, char (*)[24][24], int);
+short  video_24_to_16(unsigned char, unsigned char, unsigned char);
 
 double distances(struct sprite *, struct player *);
-char  sort(struct sprite *, struct player *, int *);
-char  move(struct sprite *, struct player *);
-char  redirect(struct sprite *, struct player *);
-char  collide(struct player*, struct sprite *);
+char   sort(struct sprite *, struct player *, int *);
+char   move(struct sprite *, struct player *);
+char   redirect(struct sprite *, struct player *);
+char   collide(struct player*, struct sprite *);
 
-void  debug_render(struct video *, nSDL_Font *);
+void   debug_render(struct video *, nSDL_Font *);
 
 //------------------------------------------------------------------
 
@@ -182,6 +239,7 @@ int main(int argc, char **argv)
     if (argv) argv = NULL;
     char flag = 1;
     video_init(&video);
+    game_help(&video, video.font);
     while (flag)
     {
         game_init();
@@ -257,6 +315,7 @@ void game_init(void)
     game_data.time_1 = 1;
     game_data.running = 1;
     game_data.score = 0;
+    game_data.world_map = &_maps[0];
     player.x = 11.5;
     player.y = 11.5;
     player.dir_x = -1;
@@ -264,54 +323,73 @@ void game_init(void)
 
 }
 
+void game_scramble(void)
+{
+    sprite_list[1].x         = 1.5;
+    sprite_list[1].y         = 1.5;
+
+    sprite_list[2].x         = 22.5;
+    sprite_list[2].y         = 1.5;
+
+    sprite_list[3].x         = 5.5;
+    sprite_list[3].y         = 22.5;
+
+    game_data.world_map = &_maps[rand()%3];
+}
+
 void key_process(struct game *data, struct player *player, struct video *video)
 {
     const double rotation = 0.1;
     const double move     = 0.1;
+    char (*world_map)[24][24] = data->world_map;
     if (isKeyPressed(KEY_NSPIRE_ESC))
     {
         data->running = 0;
     }
+    if (isKeyPressed(KEY_NSPIRE_H))
+    {
+        game_help(video, video->font);
+    }
     if (isKeyPressed(KEY_NSPIRE_SHIFT) || isKeyPressed(KEY_NSPIRE_7))
     {
-        if (!world_map[(int)(player->x - player->dir_y * move)][(int)(player->y)])
+        if (!(*world_map)[(int)(player->x - player->dir_y * move)][(int)(player->y)])
         {
             player->x -= player->dir_y * move;
         }
-        if (!world_map[(int)(player->x)][(int)(player->y + player->dir_x * move)])
+        if (!(*world_map)[(int)(player->x)][(int)(player->y + player->dir_x * move)])
         {
             player->y += player->dir_x * move;
         }
     }
     if (isKeyPressed(KEY_NSPIRE_VAR) || isKeyPressed(KEY_NSPIRE_9))
     {
-        if (!world_map[(int)(player->x + player->dir_y * move)][(int)(player->y)])
+        if (!(*world_map)[(int)(player->x + player->dir_y * move)][(int)(player->y)])
         {
             player->x += player->dir_y * move;
         }
-        if (!world_map[(int)(player->x)][(int)(player->y - player->dir_x * move)])
+        if (!(*world_map)[(int)(player->x)][(int)(player->y - player->dir_x * move)])
         {
             player->y -= player->dir_x * move;
         }
     }
     if (isKeyPressed(KEY_NSPIRE_UP) || isKeyPressed(KEY_NSPIRE_8))
     {
-        if (!world_map[(int)(player->x + player->dir_x * move)][(int)(player->y)])
+        if (!(*world_map)[(int)(player->x + player->dir_x * move)][(int)(player->y)])
         {
             player->x += player->dir_x * move;
         }
-        if (!world_map[(int)(player->x)][(int)(player->y + player->dir_y * move)])
+        if (!(*world_map)[(int)(player->x)][(int)(player->y + player->dir_y * move)])
         {
             player->y += player->dir_y * move;
         }
     }
     if (isKeyPressed(KEY_NSPIRE_DOWN) || isKeyPressed(KEY_NSPIRE_2))
     {
-        if (!world_map[(int)(player->x - player->dir_x * move)][(int)(player->y)])
+        if (!(*world_map)[(int)(player->x - player->dir_x * move)][(int)(player->y)])
         {
             player->x -= player->dir_x * move;
         }
-        if (!world_map[(int)(player->x)][(int)(player->y - player->dir_y * move)])
+        if (!(*world_map)[(int)(player->x)][(int)(player->y - player->dir_y * move)])
         {
             player->y -= player->dir_y * move;
         }
@@ -359,6 +437,7 @@ void video_init(struct video * video_ptr)
 
 void video_process(struct video *video_ptr, struct player *player_ptr)
 {
+    char (*world_map)[24][24] = game_data.world_map;
     SDL_FillRect(video.screen, NULL, SDL_MapRGB(video.screen->format, 10, 10, 10));
     video_render_wall(video_ptr, player_ptr);
     sort(sprite_list, player_ptr, sprite_stack);
@@ -371,13 +450,25 @@ void video_process(struct video *video_ptr, struct player *player_ptr)
             {
                 game_data.running = 0;
             }
-            else
+            else     //Collects Rune
             {
-                do
+                if (game_data.score %5 == 4)
                 {
-                    sprite_list[0].x = rand() % 24;
-                    sprite_list[0].y = rand() % 24;
-                } while (world_map[(int)sprite_list[0].x][(int)sprite_list[0].y]);
+                    sprite_list[0].x = 11.5;
+                    sprite_list[0].y = 11.5;
+                }
+                else
+                {
+                    if (game_data.score % 5 == 0)
+                    {
+                        game_scramble();
+                    }
+                    do
+                    {
+                        sprite_list[0].x = rand() % 24;
+                        sprite_list[0].y = rand() % 24;
+                    } while ((*world_map)[(int)sprite_list[0].x][(int)sprite_list[0].y]);
+                }
                 sprite_list[0].x = sprite_list[0].x + 0.5f;
                 sprite_list[0].y = sprite_list[0].y + 0.5f;
                 game_data.score ++;
@@ -391,6 +482,7 @@ void video_process(struct video *video_ptr, struct player *player_ptr)
 
 void video_render_wall(struct video *video_ptr, struct player *player_ptr)
 {
+    char (*world_map)[24][24] = game_data.world_map;
     for(int x = 0; x < 320; x ++)
     {
         double camera_x = (2 * x / 320.0f) - 1.0f;
@@ -439,7 +531,7 @@ void video_render_wall(struct video *video_ptr, struct player *player_ptr)
                 map_y  += step_y;
                 side   = 1;
             }
-            wall = !!(world_map[map_x][map_y]);
+            wall = !!((*world_map)[map_x][map_y]);
         }
         if (!side) 
             distance = (map_x - player_ptr->x + (1 - step_x) / 2) / ray_x;
@@ -613,6 +705,7 @@ short video_24_to_16(unsigned char red, unsigned char green, unsigned char blue)
 
 char move(struct sprite *sprite, struct player *player)
 {
+    char (*world_map)[24][24] = game_data.world_map;
     if (sprite->type)
     {
         if (!sprite->rendered)
@@ -642,7 +735,7 @@ char move(struct sprite *sprite, struct player *player)
             default:
                 return 0;
             }
-            if (world_map[(int)(sprite->x + x)][(int)(sprite->y + y)])
+            if ((*world_map)[(int)(sprite->x + x)][(int)(sprite->y + y)])
             {
                 sprite->direction = (sprite->direction + rand()%3) % 4 + 1;
             }
@@ -733,4 +826,22 @@ char sort(struct sprite *sprite_list, struct player *player, int *stack)
         }
     }
     return 0;
+}
+
+void game_help(struct video *video, nSDL_Font *font)
+{
+    SDL_FillRect(video->screen, NULL, SDL_MapRGB(video->screen->format, 0, 0, 0));
+    nSDL_DrawString(video->screen, font, 10, 10, "Rules: Collect Runes, avoid the spectres");
+    nSDL_DrawString(video->screen, font, 10, 20, "Controls: ");
+    nSDL_DrawString(video->screen, font, 10, 30, "Up: up arrow or 8 ");
+    nSDL_DrawString(video->screen, font, 10, 40, "Down: down arrow or 2 ");
+    nSDL_DrawString(video->screen, font, 10, 50, "left: left arrow or 4 ");
+    nSDL_DrawString(video->screen, font, 10, 60, "Right: right arrow or 6 ");
+    nSDL_DrawString(video->screen, font, 10, 70, "Strafe Left: shift or 7 ");
+    nSDL_DrawString(video->screen, font, 10, 80, "Strafe Right: var or 9 ");
+    nSDL_DrawString(video->screen, font, 10, 90, "Quit: Esc");
+    nSDL_DrawString(video->screen, font, 10,100, "Help: H");
+    nSDL_DrawString(video->screen, font, 10,110, "Press ENTER to Continue");
+    SDL_Flip(video->screen);
+    while (!isKeyPressed(KEY_NSPIRE_ENTER));
 }
